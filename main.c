@@ -21,6 +21,7 @@ void setup()
 	debug_init_isviewer();
 	debug_init_usblog();
 	asset_init_compression(2);
+	rspq_profile_start();
 
 	dfs_init(DFS_DEFAULT_LOCATION);
 
@@ -130,9 +131,9 @@ void set_look_at(){
 
 	// O ponto que a câmera está "olhando" (normalmente o jogador)
 	T3DVec3 camTarget = {{
-		player.mesh.transform.position.v[0],		  // Centro do jogador
-		player.mesh.transform.position.v[1] + 10.0f, // Um pouco acima do centro para evitar a base
-		player.mesh.transform.position.v[2]		  // Centro do jogador
+		player.mesh.transform.position.v[0],		  	// Centro do jogador
+		player.mesh.transform.position.v[1] + 10.0f, 	// Um pouco acima do centro para evitar a base
+		player.mesh.transform.position.v[2]		  		// Centro do jogador
 	}};
 
 	t3d_viewport_set_projection(&viewport, T3D_DEG_TO_RAD(75.0f), 2.0f, 200.0f);
@@ -157,7 +158,7 @@ int main()
 	t3d_mat4_to_fixed(terrain.material, &tmpMatrix);
 
 	float playerRot = 0.0f;
-	for (;;)
+	for(uint64_t frame = 0;; ++frame)
 	{
 		// ======== Update ======== //
 		joypad_poll();
@@ -180,7 +181,7 @@ int main()
 
 		// ======== Draw (3D) ======== //
 		draw_scene();
-		
+
 		// draw player-models
 		t3d_matrix_set(player.mesh.material, true);
 		rdpq_set_prim_color(player.mesh.color);
@@ -193,6 +194,13 @@ int main()
 
 		// Render on screen
 		rdpq_detach_show();
+		rspq_profile_next_frame();
+
+		if(frame == 30)
+		{
+			frame = 0;
+			rspq_profile_reset();
+		}
 	}
 }
 
