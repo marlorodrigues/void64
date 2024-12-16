@@ -6,7 +6,7 @@ include $(T3D_INST)/t3d.mk
 
 N64_CFLAGS += -std=gnu2x
 
-PROJECT_NAME=t3d_05_splitscreen
+PROJECT_NAME=void64
 
 src = main.c
 
@@ -32,7 +32,7 @@ filesystem/%.t3dm: assets/%.glb
 $(BUILD_DIR)/$(PROJECT_NAME).dfs: $(assets_conv)
 $(BUILD_DIR)/$(PROJECT_NAME).elf: $(src:%.c=$(BUILD_DIR)/%.o)
 
-$(PROJECT_NAME).z64: N64_ROM_TITLE="Tiny3D - Splitscreen"
+$(PROJECT_NAME).z64: N64_ROM_TITLE="Tiny3D - Void64"
 $(PROJECT_NAME).z64: $(BUILD_DIR)/$(PROJECT_NAME).dfs
 
 clean:
