@@ -18,8 +18,8 @@ typedef struct
 typedef struct 
 {
     T3DVec3 position;
-    float rotation;
     T3DVec3 scale;
+    float rotation;
 } Transform;
 
 
