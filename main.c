@@ -102,8 +102,7 @@ int main()
 		t3d_matrix_set(terrain.material, true);
 		rspq_block_run(terrain.block);
 
-		
-		// t3d_anim_update(&animIdle, deltaTime * 1000);
+		t3d_anim_update(&animIdle, deltaTime);
 
 
 		// We now blend the walk animation with the idle/attack one
@@ -114,8 +113,8 @@ int main()
 		t3d_skeleton_update(&player.skeleton);
 
 		t3d_mat4fp_from_srt_euler(player.mesh.material,
-								  (float[3]){0.256f, 0.256f, 0.256f},
-								  (float[3]){0.0f, 1.0f, 0},
+								  (float[3]){0.200f, 0.200f, 0.200f},
+								  (float[3]){0.0f, -45.0f, 0.0f},
 								  (float[3]){-50, 0, 50});
 
 
@@ -175,9 +174,10 @@ void setup()
 
 	dfs_init(DFS_DEFAULT_LOCATION);
 
-	display_init(RESOLUTION_320x240, DEPTH_16_BPP, 3, GAMMA_NONE, FILTERS_RESAMPLE_ANTIALIAS);
+	display_init(RESOLUTION_640x480, DEPTH_16_BPP, 3, GAMMA_NONE, FILTERS_RESAMPLE_ANTIALIAS);
 
 	rdpq_init();
+	rdpq_text_register_font(FONT_BUILTIN_DEBUG_MONO, rdpq_font_load_builtin(FONT_BUILTIN_DEBUG_MONO));
 
 	joypad_init();
 	t3d_init((T3DInitParams){});
@@ -236,8 +236,10 @@ void init_player(){
 	// whereas 'anim' contains all the runtime data.
 	// Note that tiny3d internally keeps no track of animations, it's up to the user to manage and play them.
 	animIdle = t3d_anim_create(player.mesh.model, "Snake_Idle");
+	t3d_anim_set_looping(&animIdle, true);
+	t3d_anim_set_playing(&animIdle, true);
 	t3d_anim_attach(&animIdle, &player.skeleton); // tells the animation which skeleton to modify
-
+	
 
 
     player.mesh.transform.position = (T3DVec3){{-50, 0, 50}};
