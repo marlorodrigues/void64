@@ -32,19 +32,36 @@ typedef struct
 	color_t color;
 } Model3d;
 
+typedef struct
+{
+	Transform transform;
+    rspq_block_t *block;
+	T3DModel *model;
+    T3DMat4FP *material;
+	color_t color;
+} Scene3d;
 
 typedef struct
 {
 	T3DVec3 velocity;
 	Model3d mesh;
+    T3DSkeleton skeleton;
 } Pawn;
+
 
 typedef struct
 {
 	T3DVec3 velocity;
 	Model3d mesh;
 	Camera camera;
+    T3DSkeleton skeleton;
+    T3DSkeleton skeletonBlend;
+
 } Character;
 
+typedef struct {
+  color_t color;
+  T3DVec3 dir;
+} DirLight;
 
 #endif
